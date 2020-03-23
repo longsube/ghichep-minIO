@@ -66,7 +66,9 @@ scrape_configs:
 ## 2. Cài đặt Promethus để thu thập metric
 Thực hiện theo hướng dẫn tại: [Cài đặt Prometheus](https://github.com/quangln94/Linux/blob/master/Monitoring/Prometheus/02.Install-Prometheus.md)
 
-### 2.1. Cấu hình để Promethus lấy metric từ minIO cluster, sửa file cấu hình `/etc/prometheus/prometheus.yml` và thêm vào nội dung vừa lấy ở trên:
+### 2.1. Cấu hình để Promethus lấy metric từ minIO cluster
+
+Chỉnh sửa file cấu hình `/etc/prometheus/prometheus.yml` và thêm vào nội dung vừa lấy ở trên:
 ```sh
 scrape_configs:
 - job_name: minio-job
@@ -81,7 +83,9 @@ scrape_configs:
 systemctl restart prometheus
 ```
 
-### 2.3. Kiểm tra Prometheus đã có metric từ minIO (**minio_disks_total**). Truy cập: `http://10.159.19.85:9090/`
+### 2.3. Kiểm tra Prometheus đã có metric từ minIO (**minio_disks_total**). 
+
+Truy cập: `http://10.159.19.85:9090/`
 ![minIO_1](../images/minIO_1.png)
 
 ## 3. Cài đặt Grafana để visualize metric
@@ -91,9 +95,13 @@ systemctl restart prometheus
 docker run -d -p 3000:3000 grafana/grafana
 ```
 
-### 3.1. Truy cập vào dashboard của Grafana: `http://10.159.19.85:3000/`. `Tài khoản: admin, pass: admin` 
+### 3.1. Truy cập vào dashboard của Grafana: 
+
+`http://10.159.19.85:3000/`. `Tài khoản: admin, pass: admin` 
 
 ### 3.2. Import file template sau để hiển thị đồ thị:
+https://raw.githubusercontent.com/longsube/ghichep-minIO/master/tools/minIO_grafana_VNPTIT.json
+
 ![minIO_3](../images/minIO_3.png)
 
 ### 3.3. Kiểm tra giao diện đồ thị:
