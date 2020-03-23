@@ -44,6 +44,7 @@ Lệnh trên sẽ liệt kê các bucket và object đang tồn tai trong minIO 
 ### 1.3. Sửa file docker-compose của minIO cluster (ở đây là **minio-stack.yml**) để cập nhật thêm cấu hình cho phép cluster có thể pull metric minIO từ máy khác local
 
 minIO sử dụng 2 cơ chế xác thực cho Prometheus giao tiếp là *jwt* và *public*. Với việc dùng cơ chế *public* sẽ cho phép Prometheus truy cập vào minIO mà không cần xác thực.
+
 Trong thẻ **environment** bổ sung thêm: **MINIO_PROMETHEUS_AUTH_TYPE: public**
 
 ### 1.4. Chạy lệnh trên minIO cluster để xuất metric cho prometheus
