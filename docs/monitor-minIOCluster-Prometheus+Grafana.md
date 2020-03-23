@@ -1,6 +1,6 @@
-# Hướng dẫn tích hợp việc giám sát minIO cluster sử dụng Prometheus và Grafana
+# Hướng dẫn tích hợp giám sát minIO cluster sử dụng Prometheus và Grafana
 ## Đầu bài:
-Giám sát tải tới cụm minIO và trạng thái sử dụng tài nguyên của minIO cluster
+Giám sát tải tới cụm minIO và trạng thái sử dụng tài nguyên của minIO cluster.
 
 ## Giải pháp:
  - Prometheus để thu thập metric của minIO cluster.
@@ -18,9 +18,9 @@ docker run -it --entrypoint=/bin/sh minio/mc
 mc config host add longlq http://10.159.19.81 access_key secret_key --api S3v4
 ```
 
- - **longlq**: alias đặt cho cluster, sử dụng cho các thao tác sau với mc.
- - **access_key**: access key của minIO cluster
- - **secret_key**: secret key của minIO cluster
+ - *longlq*: alias đặt cho cluster, sử dụng cho các thao tác sau với mc.
+ - *access_key*: access key của minIO cluster
+ - *secret_key*: secret key của minIO cluster
 
 ### 1.2. Kiểm tra việc login vào minIO cluster bằng cách list thử các bucket và object trong cluster
 ```sh
@@ -45,9 +45,16 @@ Lệnh trên sẽ liệt kê các bucket và object đang tồn tai trong minIO 
 
 minIO sử dụng 2 cơ chế xác thực cho Prometheus giao tiếp là *jwt* và *public*. Với việc dùng cơ chế *public* sẽ cho phép Prometheus truy cập vào minIO mà không cần xác thực.
 
-Trong thẻ **environment** bổ sung thêm: **MINIO_PROMETHEUS_AUTH_TYPE: public**
+Sửa file **minio-stack.yml**, trong thẻ **environment** bổ sung thêm: **MINIO_PROMETHEUS_AUTH_TYPE: public**
 
-### 1.4. Chạy lệnh trên minIO cluster để xuất metric cho prometheus
+### 1.4. Update lại docker swarm stack để cập nhật cấu hình mới vào cluster
+```sh
+docker stack deploy -c minio-stack.yml minio-cluster
+```
+ Chú ý: 
+ - *minio-cluster*: tên của minIO cluster, khi update tên cluster phải trùng với tên của cluster đang chạy.
+
+### 1.5. Chạy lệnh trên minIO cluster để xuất metric cho prometheus
 ```sh
 mc admin prometheus generate longlq
 ```
@@ -111,7 +118,7 @@ https://raw.githubusercontent.com/longsube/ghichep-minIO/master/tools/minIO_graf
 ## 4. Giải thích các thông số giám sát (**to be continued**)
 
 
-Tham khảo:
+### Tham khảo:
 
 [1] - https://docs.min.io/docs/how-to-monitor-minio-using-prometheus.html
 
