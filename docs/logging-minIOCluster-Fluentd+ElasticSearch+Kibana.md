@@ -7,9 +7,10 @@ Thu thập log HTTP Request(tải trực tiếp từ client tới minIO Cluster)
  - Duration của Request
 
 ## Giải pháp:
- - Fluentd để thu thập log của minIO Cluster khi hoạt động.
- - ElasticSearch để lưu trữ và đánh chỉ mục (inđex) cho các log.
- - Kibana để visualize log lên biểu đồ.
+ - minio-client xuất log của minIO cluster
+ - Fluentd thu thập log do minio-client xuất ra và chuyển tới ElasticSearch.
+ - ElasticSearch lưu trữ và đánh chỉ mục (inđex) cho các log.
+ - Kibana visualize log lên biểu đồ.
 
 ## Mô hình lab:
  - minIO cluster: gồm 4 node, GW: 10.159.19.81
@@ -45,7 +46,7 @@ docker push longlq/fluentd-elasticsearch
 
 
 ## 1. Cài đặt Fluentd để thu thập log từ stdout các Container
-### 1.1. Tại từng host minIO, tạo file config cho fluentd. *Lưu ý phải thay đổi IP của elasticsearch vào trường `host` cho đúng với mô hình triển khai. Các thông tin khác giữ nguyên*
+### 1.1. Tại host sẽ cài đặt minIO client (trong bài lab này là minIO 1), tạo file config cho fluentd. *Lưu ý phải thay đổi IP của elasticsearch vào trường `host` cho đúng với mô hình triển khai. Các thông tin khác giữ nguyên*
 ```sh
 cat << EOF > fluentd.conf
 <source>
@@ -144,9 +145,14 @@ Thực hiện theo hướng dẫn tại: [Cài đặt ELK](https://github.com/Tr
 ```sh
 docker run -d --name minio-client --log-driver=fluentd --log-opt fluentd-address=10.159.19.77:24224 \
      --log-opt tag=docker.ci.gitea --env MINIO_SERVER_HOST="10.159.19.81" --env MINIO_SERVER_PORT_NUMBER="80" \
-     --env MINIO_ALIAS="longlq" --env MINIO_SERVER_ACCESS_KEY="objectstorage" --env MINIO_SERVER_SECRET_KEY="objectstoragevnptit2020" \
+     --env MINIO_ALIAS="longlq" --env MINIO_SERVER_ACCESS_KEY="access_key" --env MINIO_SERVER_SECRET_KEY="secret_key" \
      bitnami/minio-client admin trace minio 2>&1 > /dev/stdout
 ```
+
+ - *longlq*: alias đặt cho cluster, sử dụng cho các thao tác sau với mc.
+ - *access_key*: access key của minIO cluster
+ - *secret_key*: secret key của minIO cluster
+
 *Lưu ý: Để điểu hướng các log do *mc* thu thập về collectd, khi khởi tạo container mc, thêm option `--log-driver` và khai báo các thông tin về IP của fluentd. *Lưu ý: tag phải theo định dạng docker.*.* như khai báo trong cấu hình fluentd.**
 
 ### Câu lệnh trên sẽ tạo container *minio-client* chạy mode background và tự động thu thập log HTTP Request. Để hiểu rõ hơn có thể làm tuần tự như sau:
@@ -196,7 +202,7 @@ Truy cập vào dashboard của Kibana đã xuất hiện log của minIO reques
 ![minIO_4](../images/minIO_4.png)
 
 
-## 4. Tiếp tục nghiên cứu việc đọc và lọc log (**to be continued**)
+*## 4. Tiếp tục nghiên cứu việc đọc và lọc log (to be continued)*
 
 
 ## Tham khảo:
