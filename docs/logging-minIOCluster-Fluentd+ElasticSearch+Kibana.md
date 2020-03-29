@@ -25,7 +25,7 @@ mkdir -p ~/fluentd
 cd ~/fluentd
 ```
 
-### 0.2. Image fluentd chưa có plugin elastisearch, do đó để fluentd đẩy được log về elasticsearch, ta tạo file dockerfile build image fluentd chứa plugin elasticsearch
+### 0.2. Để fluentd đẩy được log về elasticsearch, fluentd cần có plugin của elasticsearch, image gốc của fluentd chưa có plugin này, do đó , ta tạo file dockerfile build image fluentd chứa plugin elasticsearch
 ```sh
 cat << EOF > Dockerfile
 FROM fluent/fluentd
@@ -44,9 +44,11 @@ docker push longlq/fluentd-elasticsearch
 ```
 *Chú ý: longlq là repo cá nhân của người viết.*
 
+## 1. Cài đặt ElasticSearch và Kibana để lưu trữ và visualize log
+Thực hiện theo hướng dẫn tại: [Cài đặt ELK](https://github.com/TrongTan124/ghi-chep-ELK-OPS/blob/master/cai-dat-ELK.md)
 
-## 1. Cài đặt Fluentd để thu thập log từ stdout các Container
-### 1.1. Tại host sẽ cài đặt minIO client (trong bài lab này là minIO 1), tạo file config cho fluentd. *Lưu ý phải thay đổi IP của elasticsearch vào trường `host` cho đúng với mô hình triển khai. Các thông tin khác giữ nguyên*
+## 2. Cài đặt Fluentd để thu thập log từ stdout các Container
+### 2.1. Tại host sẽ cài đặt minIO client (trong bài lab này là minIO 1), tạo file config cho fluentd. *Lưu ý phải thay đổi IP của elasticsearch vào trường `host` cho đúng với mô hình triển khai. Các thông tin khác giữ nguyên*
 ```sh
 cat << EOF > fluentd.conf
 <source>
@@ -94,7 +96,7 @@ EOF
 
 *Lưu ý: các trường `<filter docker.*.*>` và `<match docker.*.*>`, fluentd sẽ chỉ thu thập các log có tag với format như vậy, các log ko có tag hoặc khác format bị loại bỏ.*
 
-### 1.2. Tạo file compose để khởi tạo service fluentd. Sử dụng mode global để khởi tạo trên mỗi node trong cụm cluster một container fluentd. *Lưu ý: do minIO đã có sẵn Private network nên fluentd container sẽ sử dụng luôn network này để kết nối với minIO cluster. Trong các mô hình triển khai khác thông tin về network cần thay đổi cho đúng với môi trường triển khai.*
+### 2.2. Tạo file compose để khởi tạo service fluentd. Sử dụng mode global để khởi tạo trên mỗi node trong cụm cluster một container fluentd. *Lưu ý: do minIO đã có sẵn Private network nên fluentd container sẽ sử dụng luôn network này để kết nối với minIO cluster. Trong các mô hình triển khai khác thông tin về network cần thay đổi cho đúng với môi trường triển khai.*
 ```sh
 cat << EOF > docker-compose.yml
 version: "3.7"
@@ -131,13 +133,10 @@ configs:
 EOF
 ```
 
-### 1.4. Khởi chạy fluentd
+### 2.3. Khởi chạy fluentd
 ```sh
 docker stack deploy -c docker-compose.yml logging
 ```
-
-## 2. Cài đặt ElasticSearch và Kibana để lưu trữ và visualize log
-Thực hiện theo hướng dẫn tại: [Cài đặt ELK](https://github.com/TrongTan124/ghi-chep-ELK-OPS/blob/master/cai-dat-ELK.md)
 
 ## 3. Cài đặt minIO client để xuất log HTTP Request
 
