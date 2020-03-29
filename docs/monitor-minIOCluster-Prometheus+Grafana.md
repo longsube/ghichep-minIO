@@ -118,7 +118,7 @@ https://raw.githubusercontent.com/longsube/ghichep-minIO/master/tools/minIO_graf
 ## 4. Giải thích các thông số giám sát (**to be continued**)
 
 
-### Tham khảo:
+## Tham khảo:
 
 [1] - https://docs.min.io/docs/how-to-monitor-minio-using-prometheus.html
 
