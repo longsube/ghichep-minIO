@@ -106,7 +106,6 @@ services:
     environment:
       FLUENTD_CONF: 'fluent.conf'
       FLUENTD_HOSTNAME: '{{.Node.Hostname}}'
-      TZ: 'Asia/Ho_Chi_Minh'
     ports:
       - 24224:24224
       - 24224:24224/udp
@@ -200,6 +199,11 @@ Truy cập vào dashboard của Kibana đã xuất hiện log của minIO reques
 `http://10.159.19.86:5601/`. `Tài khoản: checkmk, pass: changeme` 
 ![minIO_4](../images/minIO_4.png)
 
+### Để chỉnh lại timestamp của log về timezone Việt Nam.
+Trên giao diện Kibana, vào “Advanced Settings -> Timezone for date formatting -> dateFormat:tz”, điều chỉnh về Asia/Saigon.
+Reload lại site.
+
+![minIO_5](../images/minIO_5.png)
 
 *## 4. Tiếp tục nghiên cứu việc đọc và lọc log (to be continued)*
 
