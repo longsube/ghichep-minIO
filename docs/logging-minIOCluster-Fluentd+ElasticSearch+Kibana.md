@@ -39,10 +39,10 @@ EOF
 
 ### 0.3. Thực hiện build image từ dockerfile trên
 ```sh
-docker build -t longlq/fluentd-elasticsearch
-docker push longlq/fluentd-elasticsearch
+docker build -t longsube/fluentd-elasticsearch
+docker push longsube/fluentd-elasticsearch
 ```
-*Chú ý: longlq là repo cá nhân của người viết.*
+*Chú ý: longsube là repo cá nhân của người viết.*
 
 ## 1. Cài đặt ElasticSearch và Kibana để lưu trữ và visualize log
 Thực hiện theo hướng dẫn tại: [Cài đặt ELK](https://github.com/TrongTan124/ghi-chep-ELK-OPS/blob/master/cai-dat-ELK.md)
@@ -102,7 +102,7 @@ cat << EOF > docker-compose.yml
 version: "3.7"
 services:
   fluentd-elasticsearch:
-    image: longlq/fluentd-elasticsearch
+    image: longsube/fluentd-elasticsearch
     environment:
       FLUENTD_CONF: 'fluent.conf'
       FLUENTD_HOSTNAME: '{{.Node.Hostname}}'
