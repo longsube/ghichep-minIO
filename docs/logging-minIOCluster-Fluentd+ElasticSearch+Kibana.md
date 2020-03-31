@@ -15,7 +15,7 @@ Thu thập log HTTP Request(tải trực tiếp từ client tới minIO Cluster)
 ## Mô hình lab:
  - minIO cluster: gồm 4 node, GW: 10.159.19.81
  - Fluentd được cài đặt trên các host minIO
- - ElasticSearch + Kibana: IP 10.159.19.86
+ - ElasticSearch + Kibana: IP 10.159.19.86. Yêu cầu: Docker engine 17.05 trở lên. Docker compose 1.20.0 trở lên. 1.5GB Ram trở lên.
 
 ## 0. Build image fluentd
 
@@ -45,7 +45,46 @@ docker push longsube/fluentd-elasticsearch
 *Chú ý: longsube là repo cá nhân của người viết.*
 
 ## 1. Cài đặt ElasticSearch và Kibana để lưu trữ và visualize log
-Thực hiện theo hướng dẫn tại: [Cài đặt ELK](https://github.com/TrongTan124/ghi-chep-ELK-OPS/blob/master/cai-dat-ELK.md)
+### 1.1. Cài đặt Docker engine trên host
+```sh
+apt-get update && apt-get -y upgrade && apt-get -y dist-upgrade
+apt-get install  apt-transport-https  ca-certificates curl gnupg-agent software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+$(lsb_release -cs) \
+stable"
+apt-get update
+apt-get install docker-ce docker-ce-cli containerd.io -y
+```
+
+### 1.2. Cài đặt git trên host
+```sh
+apt-get install git -y
+```
+
+### 1.3. Clone repo của ELK docker
+```sh
+git clone https://github.com/deviantony/docker-elk.git
+```
+
+### 1.4. Trong file `docker-compose.yml`, điều chỉnh các thông số cấu hình cho RAM max và RAM min của ElasticSearch và LogStash.
+```sh
+ES_JAVA_OPTS: "-Xmx4096m -Xms2048m"
+LS_JAVA_OPTS: "-Xmx2048m -Xms1024m"
+```
+
+### 1.5. Để điều chỉnh license của gói XPack, sửa file `elasticsearch.yml` trong thư mục `docker-elk/elasticsearch/config`
+```sh
+xpack.license.self_generated.type: trial
+```
+
+### 1.6. Sau khi đã điều chỉnh các cấu hình, chạy `docker-compose` để cài đặt bộ ELK
+```sh
+docker-compose up
+```
+
+### 1.7. Kiểm tra các container được tạo bằng lệnh `docker ps`. Kết quả:
+![minIO_6](../images/minIO_6.png)
 
 ## 2. Cài đặt Fluentd để thu thập log từ stdout các Container
 ### 2.1. Tại host sẽ cài đặt minIO client (trong bài lab này là minIO 1), tạo file config cho fluentd. *Lưu ý phải thay đổi IP của elasticsearch vào trường `host` cho đúng với mô hình triển khai. Các thông tin khác giữ nguyên*
@@ -212,7 +251,7 @@ Reload lại site.
 
 [1] - https://docs.min.io/docs/minio-admin-complete-guide.html#trace
 
-[2] - https://github.com/TrongTan124/ghi-chep-ELK-OPS/blob/master/cai-dat-ELK.md
+[2] - https://github.com/deviantony/docker-elk
 
 [3] - https://docs.docker.com/config/containers/logging/
 
@@ -223,4 +262,3 @@ Reload lại site.
 [6] - https://docs.fluentd.org/v/0.12/container-deployment/docker-compose
 
 [7] - https://hub.docker.com/r/bitnami/minio-client/
-
