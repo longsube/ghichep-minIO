@@ -21,7 +21,8 @@ Nghiên cứu về cách thức lưu trữ Erasure Code của minIO:
  - Lượng data chunks càng lớn, CPU càng tốn nhiều hiệu năng để xử lý các chunks, tuy nhiên dung lượng tiết kiệm được càng nhiểu.
  - Ngược lại lượng data chunks ít thì tiết kiệm tài nguyên CPU tuy nhiên gây lãng phí dung lượng (theo công thức `n/k` ở trên).
  - Công thức để tính ra dung lượng Cluster sau khi erasure code: `ER_dunglương = (số lượng ổ đĩa * k / (k+m)) * dung lượng từng ổ đĩa`
- VD: Số lượng ổ đĩa là 64. Dung lượng từng ổ là 4TB, m = 1~4, k = 1~10.
+
+ VD: Số lượng ổ đĩa là 64. Dung lượng từng ổ là 4TB, m = 1 - 4, k = 1 - 10.
  ![minIO_7](../images/minIO_7.png)
 
 ## 3. Cách cấu hình sử dụng Erasure code
