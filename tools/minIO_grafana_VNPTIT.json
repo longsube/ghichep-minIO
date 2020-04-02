@@ -2,6 +2,7 @@
   "annotations": {
     "list": [
       {
+        "$$hashKey": "object:19",
         "builtIn": 1,
         "datasource": "-- Grafana --",
         "enable": true,
@@ -16,8 +17,8 @@
   "editable": true,
   "gnetId": 11568,
   "graphTooltip": 0,
-  "id": 6,
-  "iteration": 1584956586827,
+  "id": 1,
+  "iteration": 1585821007624,
   "links": [],
   "panels": [
     {
@@ -295,7 +296,7 @@
       "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
+      "nullPointMode": "connected",
       "options": {
         "dataLinks": []
       },
@@ -336,6 +337,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:433",
           "format": "bytes",
           "label": null,
           "logBase": 1,
@@ -344,6 +346,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:434",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -385,7 +388,7 @@
       "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
+      "nullPointMode": "connected",
       "options": {
         "dataLinks": []
       },
@@ -401,6 +404,8 @@
         {
           "expr": "disk_storage_available{disk=\"$disks\",instance=\"$host\"}",
           "format": "time_series",
+          "instant": false,
+          "interval": "",
           "intervalFactor": 1,
           "legendFormat": "Available Storage: ",
           "refId": "A"
@@ -426,6 +431,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:126",
           "format": "bytes",
           "label": null,
           "logBase": 1,
@@ -434,6 +440,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:127",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -477,7 +484,7 @@
       "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
+      "nullPointMode": "connected",
       "options": {
         "dataLinks": []
       },
@@ -518,6 +525,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:501",
           "format": "bytes",
           "label": null,
           "logBase": 1,
@@ -526,6 +534,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:502",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -567,7 +576,7 @@
       "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
+      "nullPointMode": "connected",
       "options": {
         "dataLinks": []
       },
@@ -619,6 +628,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:569",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -627,6 +637,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:570",
           "format": "short",
           "label": "",
           "logBase": 1,
@@ -668,7 +679,7 @@
       "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
+      "nullPointMode": "connected",
       "options": {
         "dataLinks": []
       },
@@ -717,6 +728,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:640",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -725,6 +737,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:641",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -766,7 +779,7 @@
       "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
+      "nullPointMode": "connected",
       "options": {
         "dataLinks": []
       },
@@ -815,6 +828,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:934",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -823,6 +837,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:935",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -864,7 +879,7 @@
       "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
+      "nullPointMode": "connected",
       "options": {
         "dataLinks": []
       },
@@ -906,6 +921,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:1005",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -914,6 +930,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:1006",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -955,7 +972,7 @@
       "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
+      "nullPointMode": "connected",
       "options": {
         "dataLinks": []
       },
@@ -997,6 +1014,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:1076",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1005,6 +1023,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:1077",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1046,7 +1065,7 @@
       "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
+      "nullPointMode": "connected",
       "options": {
         "dataLinks": []
       },
@@ -1063,6 +1082,7 @@
           "expr": "sum(s3_ttfb_seconds_bucket{api=~\"delete.*\", instance=\"$host\",le=\"$seconds\"})",
           "format": "time_series",
           "hide": false,
+          "interval": "",
           "intervalFactor": 1,
           "legendFormat": "Total  get+list+head le $seconds",
           "refId": "A"
@@ -1088,6 +1108,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:1147",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1096,6 +1117,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:1148",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1137,7 +1159,7 @@
       "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
+      "nullPointMode": "connected",
       "options": {
         "dataLinks": []
       },
@@ -1178,6 +1200,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:863",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1186,6 +1209,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:864",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1227,7 +1251,7 @@
       "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
+      "nullPointMode": "connected",
       "options": {
         "dataLinks": []
       },
@@ -1268,6 +1292,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:711",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1276,6 +1301,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:712",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1368,6 +1394,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:1287",
           "format": "Bps",
           "label": null,
           "logBase": 1,
@@ -1376,6 +1403,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:1288",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1390,7 +1418,7 @@
       }
     }
   ],
-  "refresh": "5s",
+  "refresh": "1s",
   "schemaVersion": 22,
   "style": "dark",
   "tags": [
@@ -1403,8 +1431,8 @@
       {
         "allValue": null,
         "current": {
-          "text": "",
-          "value": ""
+          "text": "10.159.19.81:80",
+          "value": "10.159.19.81:80"
         },
         "datasource": "Prometheus",
         "definition": "label_values({__name__=~\"node_load1|minio_disks_total\"}, instance)",
@@ -1429,7 +1457,6 @@
       {
         "allValue": null,
         "current": {
-          "selected": true,
           "text": "/export",
           "value": "/export"
         },
@@ -1456,8 +1483,8 @@
       {
         "allValue": null,
         "current": {
-          "text": "",
-          "value": ""
+          "text": "+Inf",
+          "value": "+Inf"
         },
         "datasource": "Prometheus",
         "definition": "label_values({__name__=\"s3_ttfb_seconds_bucket\"}, le)",
@@ -1482,8 +1509,8 @@
       {
         "allValue": null,
         "current": {
-          "text": "",
-          "value": ""
+          "text": "2020-01-16T22:40:29Z",
+          "value": "2020-01-16T22:40:29Z"
         },
         "datasource": "Prometheus",
         "definition": "label_values({__name__=\"minio_version_info\"}, version)",
@@ -1508,11 +1535,12 @@
     ]
   },
   "time": {
-    "from": "now-2h",
+    "from": "now-3h",
     "to": "now"
   },
   "timepicker": {
     "refresh_intervals": [
+      "1s",
       "5s",
       "10s",
       "30s",
@@ -1542,5 +1570,5 @@
   "variables": {
     "list": []
   },
-  "version": 12
+  "version": 3
 }
