@@ -42,6 +42,12 @@ google/cadvisor:latest
     static_configs:
       - targets: ['10.159.19.77:8081']
 ```
+### Khi muốn giám sát thêm host mới, chỉ cần thêm 1 target mới. VD:
+```sh
+    static_configs:
+      - targets: ['10.159.19.77:8081']
+      - targets: ['10.159.19.78:8081']
+```
 
 ### 2.3. Khởi tạo hoặc Restart lại container Prometheus (nếu đã có) để lấy cấu hình mới
 ```sh

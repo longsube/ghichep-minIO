@@ -32,6 +32,12 @@ docker run -d --name node-exporter -p 9100:9100 prom/node-exporter
     static_configs:
       - targets: ['10.159.19.77:9100']
 ```
+### Khi muốn giám sát thêm host mới, chỉ cần thêm 1 target mới. VD:
+```sh
+    static_configs:
+      - targets: ['10.159.19.77:9100']
+      - targets: ['10.159.19.78:9100']
+```
 
 ### 2.3. Khởi tạo hoặc Restart lại container Prometheus (nếu đã có) để lấy cấu hình mới
 ```sh
