@@ -2,7 +2,6 @@
   "annotations": {
     "list": [
       {
-        "$$hashKey": "object:569",
         "builtIn": 1,
         "datasource": "-- Grafana --",
         "enable": true,
@@ -18,7 +17,7 @@
   "gnetId": 10566,
   "graphTooltip": 1,
   "id": 5,
-  "iteration": 1585839323032,
+  "iteration": 1585904576911,
   "links": [],
   "panels": [
     {
@@ -299,7 +298,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:3191",
           "format": "Bps",
           "label": "",
           "logBase": 1,
@@ -308,7 +306,6 @@
           "show": true
         },
         {
-          "$$hashKey": "object:3192",
           "format": "short",
           "label": "",
           "logBase": 10,
@@ -410,7 +407,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:1249",
           "format": "Bps",
           "label": null,
           "logBase": 1,
@@ -419,7 +415,6 @@
           "show": true
         },
         {
-          "$$hashKey": "object:1250",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -519,7 +514,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:1344",
           "format": "bytes",
           "label": "",
           "logBase": 1,
@@ -528,7 +522,6 @@
           "show": true
         },
         {
-          "$$hashKey": "object:1345",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -621,7 +614,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:1512",
           "format": "percent",
           "label": "",
           "logBase": 1,
@@ -629,7 +621,6 @@
           "show": true
         },
         {
-          "$$hashKey": "object:1513",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -723,7 +714,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:1596",
           "decimals": 1,
           "format": "bytes",
           "label": null,
@@ -733,7 +723,6 @@
           "show": true
         },
         {
-          "$$hashKey": "object:1597",
           "decimals": 1,
           "format": "bytes",
           "label": null,
@@ -829,7 +818,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:1683",
           "decimals": 1,
           "format": "bytes",
           "label": null,
@@ -839,7 +827,6 @@
           "show": true
         },
         {
-          "$$hashKey": "object:1684",
           "decimals": 1,
           "format": "bytes",
           "label": null,
@@ -935,7 +922,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:1770",
           "decimals": 1,
           "format": "bytes",
           "label": null,
@@ -945,7 +931,6 @@
           "show": true
         },
         {
-          "$$hashKey": "object:1771",
           "decimals": 1,
           "format": "bytes",
           "label": null,
@@ -1128,13 +1113,13 @@
         "allValue": null,
         "current": {
           "isNone": true,
-          "selected": true,
+          "selected": false,
           "text": "None",
           "value": ""
         },
         "datasource": "Prometheus",
         "definition": "",
-        "hide": 0,
+        "hide": 2,
         "includeAll": false,
         "index": -1,
         "label": null,
@@ -1155,9 +1140,9 @@
       {
         "allValue": null,
         "current": {
-          "text": "containeradvisor_minio1",
+          "text": "All",
           "value": [
-            "containeradvisor_minio1"
+            "$__all"
           ]
         },
         "datasource": "Prometheus",
@@ -1183,13 +1168,13 @@
       {
         "allValue": null,
         "current": {
-          "text": "10.159.19.77:8081",
+          "text": "All",
           "value": [
-            "10.159.19.77:8081"
+            "$__all"
           ]
         },
         "datasource": "Prometheus",
-        "definition": "",
+        "definition": "label_values(cadvisor_version_info{env=~\"$environment\",job=~\"$job\"}, instance)",
         "hide": 0,
         "includeAll": true,
         "index": -1,
@@ -1240,10 +1225,10 @@
     ]
   },
   "timezone": "browser",
-  "title": "Container metrics ( cAdvisor )",
+  "title": "Container metrics (cAdvisor)",
   "uid": "Ss3q6hSZk",
   "variables": {
     "list": []
   },
-  "version": 6
+  "version": 11
 }

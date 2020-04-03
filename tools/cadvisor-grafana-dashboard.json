@@ -16,8 +16,8 @@
   "editable": true,
   "gnetId": 395,
   "graphTooltip": 1,
-  "id": 2,
-  "iteration": 1574808399911,
+  "id": 3,
+  "iteration": 1585904548288,
   "links": [],
   "panels": [
     {
@@ -37,6 +37,9 @@
             "mean"
           ],
           "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
             "mappings": [
               {
                 "id": 0,
@@ -49,22 +52,25 @@
             "max": 100,
             "min": 0,
             "nullValueMode": "connected",
-            "thresholds": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
             "unit": "decbytes"
           },
-          "override": {},
+          "overrides": [],
           "values": false
         },
         "orientation": "horizontal",
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "6.4.4",
+      "pluginVersion": "6.7.1",
       "targets": [
         {
           "expr": "sum(rate(container_network_receive_bytes_total{id=\"/\"}[$interval])) by (id)",
@@ -106,6 +112,9 @@
             "mean"
           ],
           "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
             "mappings": [
               {
                 "id": 0,
@@ -118,24 +127,28 @@
             "max": 100,
             "min": 0,
             "nullValueMode": "connected",
-            "thresholds": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
             "unit": "none"
           },
-          "override": {},
+          "overrides": [],
           "values": false
         },
-        "orientation": "horizontal"
+        "orientation": "horizontal",
+        "showUnfilled": true
       },
-      "pluginVersion": "6.4.4",
+      "pluginVersion": "6.7.1",
       "targets": [
         {
           "expr": "sum(rate(container_cpu_system_seconds_total[1m]))",
@@ -205,6 +218,9 @@
             "mean"
           ],
           "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
             "mappings": [
               {
                 "id": 0,
@@ -217,30 +233,33 @@
             "max": 100,
             "min": 0,
             "nullValueMode": "connected",
-            "thresholds": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "#EAB839",
-                "value": 50
-              },
-              {
-                "color": "red",
-                "value": 87.5
-              }
-            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "#EAB839",
+                  "value": 50
+                },
+                {
+                  "color": "red",
+                  "value": 87.5
+                }
+              ]
+            },
             "unit": "none"
           },
-          "override": {},
+          "overrides": [],
           "values": false
         },
         "orientation": "horizontal",
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "6.4.4",
+      "pluginVersion": "6.7.1",
       "targets": [
         {
           "expr": "count(rate(container_last_seen{name=~\".+\",container_group=\"\"}[$interval]))",
@@ -278,6 +297,7 @@
         "x": 17,
         "y": 0
       },
+      "hiddenSeries": false,
       "id": 13,
       "isNew": true,
       "legend": {
@@ -382,6 +402,7 @@
         "x": 0,
         "y": 5
       },
+      "hiddenSeries": false,
       "id": 1,
       "isNew": true,
       "legend": {
@@ -481,6 +502,7 @@
         "x": 12,
         "y": 5
       },
+      "hiddenSeries": false,
       "id": 20,
       "isNew": true,
       "legend": {
@@ -698,6 +720,7 @@
         "x": 12,
         "y": 12
       },
+      "hiddenSeries": false,
       "id": 4,
       "isNew": true,
       "legend": {
@@ -793,6 +816,7 @@
         "x": 0,
         "y": 13
       },
+      "hiddenSeries": false,
       "id": 9,
       "isNew": true,
       "legend": {
@@ -897,6 +921,7 @@
         "x": 0,
         "y": 19
       },
+      "hiddenSeries": false,
       "id": 8,
       "isNew": true,
       "legend": {
@@ -999,6 +1024,7 @@
         "x": 12,
         "y": 19
       },
+      "hiddenSeries": false,
       "id": 10,
       "isNew": true,
       "legend": {
@@ -1106,7 +1132,6 @@
       "id": 18,
       "isNew": true,
       "links": [],
-      "options": {},
       "pageSize": 100,
       "scroll": true,
       "showHeader": true,
@@ -1116,11 +1141,13 @@
       },
       "styles": [
         {
+          "align": "auto",
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "pattern": "Time",
           "type": "date"
         },
         {
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -1201,6 +1228,7 @@
         "x": 12,
         "y": 25
       },
+      "hiddenSeries": false,
       "id": 11,
       "isNew": true,
       "legend": {
@@ -1297,7 +1325,7 @@
     }
   ],
   "refresh": "10s",
-  "schemaVersion": 20,
+  "schemaVersion": 22,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -1305,18 +1333,20 @@
       {
         "allValue": ".+",
         "current": {
+          "selected": false,
           "text": "All",
           "value": "$__all"
         },
         "datasource": "Prometheus",
-        "definition": "",
+        "definition": "label_values(node_uname_info, job)",
         "hide": 0,
         "includeAll": true,
+        "index": -1,
         "label": "Container Group",
         "multi": true,
-        "name": "containergroup",
+        "name": "container_group",
         "options": [],
-        "query": "label_values(container_group)",
+        "query": "label_values(node_uname_info, job)",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -1332,6 +1362,7 @@
         "auto_count": 50,
         "auto_min": "50s",
         "current": {
+          "selected": false,
           "text": "auto",
           "value": "$__auto_interval_interval"
         },
@@ -1462,5 +1493,8 @@
   "timezone": "browser",
   "title": "Docker Host & Container Overview",
   "uid": "n-zRWYxZk",
-  "version": 13
+  "variables": {
+    "list": []
+  },
+  "version": 4
 }
