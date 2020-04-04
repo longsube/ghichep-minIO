@@ -22,7 +22,7 @@ docker run -d --name node-exporter -p 9100:9100 prom/node-exporter
 ![minIO_15](../images/minIO_15.png)
 
 ## 2. Cài đặt Prometheus để lưu trữ tập trung metric
-### 2.1. Cài đặt Prometheus theo [hướng dẫn](https://github.com/longsube/ghichep_prometheus/blob/master/docs/install_prometheus_container.md)
+### 2.1. Cài đặt Prometheus theo [hướng dẫn](https://github.com/longsube/ghichep-prometheus-v2/blob/master/docs/install_prometheus_container.md)
 
 ### 2.2. Chỉnh sửa file `prometheus.yml`, khai báo thêm thông tin của Docker host
 ```sh

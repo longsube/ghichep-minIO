@@ -72,7 +72,7 @@ scrape_configs:
 Đây là cấu hình sẽ thêm vào prometheus để lấy metric từ minIO cluster (nếu dùng mode *public* thì bỏ trường **bearer_token** )
 
 ## 2. Cài đặt Promethus để thu thập metric
-Thực hiện theo hướng dẫn tại: [Cài đặt Prometheus](https://github.com/longsube/ghichep_prometheus/blob/master/docs/install_prometheus_container.md)
+Thực hiện theo hướng dẫn tại: [Cài đặt Prometheus](https://github.com/longsube/ghichep-prometheus-v2/blob/master/docs/install_prometheus_container.md)
 
 ### 2.1. Cấu hình để Promethus lấy metric từ minIO cluster
 
