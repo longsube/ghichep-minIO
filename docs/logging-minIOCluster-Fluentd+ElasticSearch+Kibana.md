@@ -15,7 +15,7 @@ Thu thập log HTTP Request(tải trực tiếp từ client tới minIO Cluster)
 ## Mô hình lab:
  - minIO cluster: gồm 4 node, GW: 10.159.19.81
  - Fluentd được cài đặt trên các host minIO
- - ElasticSearch + Kibana: IP 10.159.19.86. Yêu cầu: Docker engine 17.05 trở lên. Docker compose 1.20.0 trở lên. 1.5GB Ram trở lên.
+ - ElasticSearch + Kibana: IP 10.159.19.86. Yêu cầu: Docker engine 17.05 trở lên. 1.5GB Ram trở lên.
 
 ## 0. Build image fluentd
 
@@ -25,7 +25,7 @@ mkdir -p ~/fluentd
 cd ~/fluentd
 ```
 
-### 0.2. Để fluentd đẩy được log về elasticsearch, fluentd cần có plugin của elasticsearch, image gốc của fluentd chưa có plugin này, do đó , ta tạo file dockerfile build image fluentd chứa plugin elasticsearch
+### 0.2. Để fluentd đẩy được log về elasticsearch, fluentd cần có plugin của elasticsearch, image gốc của fluentd chưa có plugin này, do đó , ta tạo file `Dockerfile` để build image fluentd chứa plugin elasticsearch
 ```sh
 cat << EOF > Dockerfile
 FROM fluent/fluentd
@@ -39,55 +39,55 @@ EOF
 
 ### 0.3. Thực hiện build image từ dockerfile trên
 ```sh
-docker build -t longsube/fluentd-elasticsearch
-docker push longsube/fluentd-elasticsearch
+docker build -t longsube/fluentd-elasticsearch:1.0 .
+docker push longsube/fluentd-elasticsearch:1.0
 ```
 *Chú ý: longsube là repo cá nhân của người viết.*
 
-## 1. Cài đặt ElasticSearch và Kibana để lưu trữ và visualize log
-### 1.1. Cài đặt Docker engine trên host
-```sh
-apt-get update && apt-get -y upgrade && apt-get -y dist-upgrade
-apt-get install  apt-transport-https  ca-certificates curl gnupg-agent software-properties-common
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sudo add-apt-repository    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-$(lsb_release -cs) \
-stable"
-apt-get update
-apt-get install docker-ce docker-ce-cli containerd.io -y
-```
+## 1. Cài đặt ElasticSearch và Kibana để lưu trữ và visualize log (deploy trên Docker swarm)
 
-### 1.2. Cài đặt git trên host
+### 1.1. Trên host Swarm manager, cài đặt git
 ```sh
 apt-get install git -y
 ```
 
-### 1.3. Clone repo của ELK docker
+### 1.2. Clone repo của ELK docker
 ```sh
 git clone https://github.com/deviantony/docker-elk.git
 ```
 
-### 1.4. Trong file `docker-compose.yml`, điều chỉnh các thông số cấu hình cho RAM max và RAM min của ElasticSearch và LogStash.
+### 1.3. Trong file `docker-stack.yml`, điều chỉnh các thông số cấu hình cho RAM max và RAM min của ElasticSearch và LogStash.
 ```sh
 ES_JAVA_OPTS: "-Xmx4096m -Xms2048m"
 LS_JAVA_OPTS: "-Xmx2048m -Xms1024m"
+```
+
+### 1.4. Trong file `docker-stack.yml`, tại trường `deploy` của tất cả các services, bổ sung thêm khai báo `placement` để deploy các container ELK trên host chỉ định (minio8-dev)
+```sh
+deploy:
+  mode: replicated
+  replicas: 1
+  placement:
+    constraints:
+      - node.hostname==minio8-dev
 ```
 
 ### 1.5. Để điều chỉnh license của gói XPack, sửa file `elasticsearch.yml` trong thư mục `docker-elk/elasticsearch/config`
 ```sh
 xpack.license.self_generated.type: trial
 ```
+*Có 2 option là trial và basic*
 
-### 1.6. Sau khi đã điều chỉnh các cấu hình, chạy `docker-compose` để cài đặt bộ ELK
+### 1.6. Sau khi đã điều chỉnh các cấu hình, chạy `docker stack deploy` để cài đặt bộ ELK
 ```sh
-docker-compose up
+docker stack deploy -c docker-stack.yml elk
 ```
 
 ### 1.7. Kiểm tra các container được tạo bằng lệnh `docker ps`. Kết quả:
 ![minIO_6](../images/minIO_6.png)
 
-## 2. Cài đặt Fluentd để thu thập log từ stdout các Container
-### 2.1. Tại host sẽ cài đặt minIO client (trong bài lab này là minIO 1), tạo file config cho fluentd. *Lưu ý phải thay đổi IP của elasticsearch vào trường `host` cho đúng với mô hình triển khai. Các thông tin khác giữ nguyên*
+## 2. Cài đặt Fluentd để thu thập log từ stdout các Container (deploy trên Docker swarm)
+### 2.1. Trên host Swarm manager, (trong bài lab này là minIO 1), tạo file config cho fluentd. *Lưu ý phải thay đổi IP của elasticsearch vào trường `host` cho đúng với mô hình triển khai. Các thông tin khác giữ nguyên*
 ```sh
 cat << EOF > fluentd.conf
 <source>
@@ -135,13 +135,13 @@ EOF
 
 *Lưu ý: các trường `<filter docker.*.*>` và `<match docker.*.*>`, fluentd sẽ chỉ thu thập các log có tag với format như vậy, các log ko có tag hoặc khác format bị loại bỏ.*
 
-### 2.2. Tạo file compose để khởi tạo service fluentd. Sử dụng mode global để khởi tạo trên mỗi node trong cụm cluster một container fluentd. *Lưu ý: do minIO đã có sẵn Private network nên fluentd container sẽ sử dụng luôn network này để kết nối với minIO cluster. Trong các mô hình triển khai khác thông tin về network cần thay đổi cho đúng với môi trường triển khai.*
+### 2.2. Tạo file stack để khởi tạo service fluentd. Sử dụng mode global để khởi tạo trên mỗi node trong cụm cluster một container fluentd. *Lưu ý: do minIO đã có sẵn Private network nên fluentd container sẽ sử dụng luôn network này để kết nối với minIO cluster. Trong các mô hình triển khai khác thông tin về network cần thay đổi cho đúng với môi trường triển khai.*
 ```sh
-cat << EOF > docker-compose.yml
+cat << EOF > docker-stack.yml
 version: "3.7"
 services:
   fluentd-elasticsearch:
-    image: longsube/fluentd-elasticsearch
+    image: longsube/fluentd-elasticsearch:1.0
     environment:
       FLUENTD_CONF: 'fluent.conf'
       FLUENTD_HOSTNAME: '{{.Node.Hostname}}'
@@ -171,9 +171,9 @@ configs:
 EOF
 ```
 
-### 2.3. Khởi chạy fluentd
+### 2.3. Khởi tạo fluentd, với cấu hình trên, container fluentd sẽ được deploy trên tất cả các host thuộc Swarm có OS là linux
 ```sh
-docker stack deploy -c docker-compose.yml logging
+docker stack deploy -c docker-stack.yml logging
 ```
 
 ## 3. Cài đặt minIO client để xuất log HTTP Request
@@ -230,12 +230,10 @@ Lệnh trên sẽ liệt kê các bucket và object đang tồn tai trong minIO 
 mc admin trace longlq 2>&1 > /dev/stdout
 ```
 
-
-
 ### 3.5. Container *minio-client* sẽ thu thập log và gửi về fluentd service, ta có thể theo dõi log này trên giao diện của Kibana. Trên client, thử tạo các Request đọc và ghi object tới minIO cluster qua S3 API. 
 Truy cập vào dashboard của Kibana đã xuất hiện log của minIO request: 
 
-`http://10.159.19.86:5601/`. `Tài khoản: checkmk, pass: changeme` 
+`http://10.159.19.86:5601/`. `Tài khoản: elastic, pass: changeme` 
 ![minIO_4](../images/minIO_4.png)
 
 ### Để chỉnh lại timestamp của log về timezone Việt Nam.
@@ -249,16 +247,10 @@ Reload lại site.
 
 ## Tham khảo:
 
-[1] - https://docs.min.io/docs/minio-admin-complete-guide.html#trace
-
-[2] - https://github.com/deviantony/docker-elk
-
-[3] - https://docs.docker.com/config/containers/logging/
-
-[4] - https://sysadmins.co.za/shipping-your-logs-from-docker-swarm-to-elasticsearch-with-fluentd/
-
-[5] - https://docs.docker.com/config/containers/logging/fluentd/
-
-[6] - https://docs.fluentd.org/v/0.12/container-deployment/docker-compose
-
-[7] - https://hub.docker.com/r/bitnami/minio-client/
+- https://docs.min.io/docs/minio-admin-complete-guide.html#trace
+- https://github.com/deviantony/docker-elk
+- https://docs.docker.com/config/containers/logging/
+- https://sysadmins.co.za/shipping-your-logs-from-docker-swarm-to-elasticsearch-with-fluentd/
+- https://docs.docker.com/config/containers/logging/fluentd/
+- https://docs.fluentd.org/v/0.12/container-deployment/docker-compose
+- https://hub.docker.com/r/bitnami/minio-client/
