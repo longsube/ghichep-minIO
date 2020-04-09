@@ -87,7 +87,7 @@ docker stack deploy -c docker-stack.yml elk
 ![minIO_6](../images/minIO_6.png)
 
 ## 2. Cài đặt Fluentd để thu thập log từ stdout các Container (deploy trên Docker swarm)
-### 2.1. Trên host Swarm manager, (trong bài lab này là minIO 1), tạo file config cho fluentd. *Lưu ý phải thay đổi IP của elasticsearch vào trường `host` cho đúng với mô hình triển khai. Các thông tin khác giữ nguyên*
+### 2.1. Trên host Swarm manager, (trong bài lab này là minIO 1), tạo file config cho fluentd. *Lưu ý phải thay đổi IP của elasticsearch vào trường `host`,`user` và `password` cho đúng với mô hình triển khai. Các thông tin khác giữ nguyên*
 ```sh
 cat << EOF > fluentd.conf
 <source>
@@ -120,7 +120,7 @@ cat << EOF > fluentd.conf
     type_name access_log
     tag_key @log_name
     user elastic
-    password 	
+    password changeme
     <buffer>
       flush_interval 1s
       flush_thread_count 2
