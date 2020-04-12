@@ -14,9 +14,9 @@ Giám sát tình trạng hoạt động của các host vật lý.
  - Grafana: IP 10.159.19.84
 
 ## 1. Cài đặt Node-exporter để thu thập metric container
-### 1.1. Trên Docker host, chạy lệnh sau để khởi tạo cAdvisor container
+### 1.1. Trên Docker host, chạy lệnh sau để khởi tạo node-exporter container
 ```sh
-docker run -d --name node-exporter -p 9100:9100 prom/node-exporter
+docker run --restart=always -d --name node-exporter -p 9100:9100 prom/node-exporter
 ```
 ### 1.2. Kiểm tra bằng cách truy cập `http://10.159.19.77:9100`
 ![minIO_15](../images/minIO_15.png)
@@ -41,7 +41,7 @@ docker run -d --name node-exporter -p 9100:9100 prom/node-exporter
 
 ### 2.3. Khởi tạo hoặc Restart lại container Prometheus (nếu đã có) để lấy cấu hình mới
 ```sh
-docker run -d --name prometheus -p 9090:9090 -v /root/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus --config.file=/etc/prometheus/prometheus.yml
+docker run --restart=always -d --name prometheus -p 9090:9090 -v /root/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus --config.file=/etc/prometheus/prometheus.yml
 ```
 
 ### 2.4. Kiểm tra bằng cách truy cập giao diện của Prometheus tại `http://10.159.19.84:9091`
@@ -52,7 +52,7 @@ Vào "Status" -> "Service discovery", thấy xuất hiện các job của cAdvis
 
 ### 3.1. Cài đặt Grafana
 ```sh
-docker run -d -p 3000:3000 grafana/grafana
+docker run --restart=always -d -p 3000:3000 grafana/grafana
 ```
 
 ### 3.1. Truy cập vào dashboard của Grafana: 

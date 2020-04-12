@@ -180,7 +180,7 @@ docker stack deploy -c docker-stack.yml logging
 
 ### 3.1. minIO client (mc) là một công cụ cung cấp phương thức giao tiếp với minIO cluster bằng command line. Có thể cài đặt minIO client trên 1 máy chủ riêng biệt, trong bài lab này sẽ cài đặt *mc* container trên host minIO 1, sử dụng image minio client của bitnami.
 ```sh
-docker run -d --name minio-client --log-driver=fluentd --log-opt fluentd-address=10.159.19.77:24224 \
+docker run --restart=always -d --name minio-client --log-driver=fluentd --log-opt fluentd-address=10.159.19.77:24224 \
      --log-opt tag=docker.ci.gitea --env MINIO_SERVER_HOST="10.159.19.81" --env MINIO_SERVER_PORT_NUMBER="80" \
      --env MINIO_ALIAS="longlq" --env MINIO_SERVER_ACCESS_KEY="access_key" --env MINIO_SERVER_SECRET_KEY="secret_key" \
      bitnami/minio-client admin trace minio 2>&1 > /dev/stdout

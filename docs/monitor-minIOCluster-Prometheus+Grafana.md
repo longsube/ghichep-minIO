@@ -14,7 +14,7 @@ Giám sát tải tới cụm minIO và trạng thái sử dụng tài nguyên c�
 ## 1. Cài đặt promethus để giám sát minIO cluster
 ### 1.1. Trên host minIO 1, sử dụng mc để cấu hình (mc là minIO client để tương tác với minIO cluster)
 ```sh
-docker run -it --entrypoint=/bin/sh minio/mc
+docker run --restart=always -it --entrypoint=/bin/sh minio/mc
 mc config host add longlq http://10.159.19.81 access_key secret_key --api S3v4
 ```
 
@@ -100,7 +100,7 @@ Truy cập: `http://10.159.19.85:9090/`
 
 ### 3.1. Cài đặt Grafana
 ```sh
-docker run -d -p 3000:3000 grafana/grafana
+docker run --restart=always -d -p 3000:3000 grafana/grafana
 ```
 
 ### 3.1. Truy cập vào dashboard của Grafana: 

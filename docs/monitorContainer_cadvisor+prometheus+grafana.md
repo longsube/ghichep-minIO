@@ -17,7 +17,7 @@ Giám sát tình trạng hoạt động của các container trên host.
 ## 1. Cài đặt cAdvisor để thu thập metric container
 ### 1.1. Trên Docker host, chạy lệnh sau để khởi tạo cAdvisor container
 ```sh
-docker run -d \
+docker run --restart=always -d \
 --volume=/:/rootfs:ro \
 --volume=/var/run:/var/run:ro \
 --volume=/sys:/sys:ro \
@@ -62,7 +62,7 @@ Vào "Status" -> "Service discovery", thấy xuất hiện các job của cAdvis
 
 ### 3.1. Cài đặt Grafana
 ```sh
-docker run -d -p 3000:3000 grafana/grafana
+docker run --restart=always -d -p 3000:3000 grafana/grafana
 ```
 
 ### 3.1. Truy cập vào dashboard của Grafana: 
